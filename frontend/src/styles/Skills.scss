@@ -1,0 +1,84 @@
+// styles/Skills.scss
+@import 'variables';
+
+.skills {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    padding: 1.5rem;
+    transition: border-color $transition, transform $transition;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 2px 2px 0 0;
+      opacity: 0;
+      transition: opacity $transition;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+
+      &::before { opacity: 1; }
+    }
+
+    // color variants
+    &--blue   { &:hover { border-color: $blue-border; }   &::before { background: $blue; } }
+    &--purple { &:hover { border-color: $purple-border; } &::before { background: $purple; } }
+    &--amber  { &:hover { border-color: $amber-border; }  &::before { background: $amber; } }
+    &--green  { &:hover { border-color: $green-border; }  &::before { background: $green; } }
+    &--teal   { &:hover { border-color: rgba(20,184,166,.3); } &::before { background: $teal; } }
+    &--coral  { &:hover { border-color: rgba(249,115,22,.3); } &::before { background: $coral; } }
+  }
+
+  &__card-title {
+    font-family: $font-display;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__tag {
+    font-family: $font-mono;
+    font-size: 0.72rem;
+    padding: 0.28rem 0.7rem;
+    border-radius: 99px;
+    border: 1px solid $border;
+    color: $text-muted;
+    background: $surface;
+    transition: all $transition;
+
+    &--blue   { &:hover { background: $blue-dim;   color: $blue;   border-color: $blue-border; } }
+    &--purple { &:hover { background: $purple-dim; color: $purple; border-color: $purple-border; } }
+    &--amber  { &:hover { background: $amber-dim;  color: $amber;  border-color: $amber-border; } }
+    &--green  { &:hover { background: $green-dim;  color: $green;  border-color: $green-border; } }
+    &--teal   { &:hover { background: $teal-dim;   color: $teal;   border-color: rgba(20,184,166,.3); } }
+    &--coral  { &:hover { background: $coral-dim;  color: $coral;  border-color: rgba(249,115,22,.3); } }
+  }
+}

@@ -1,0 +1,71 @@
+// styles/Navbar.scss
+@import 'variables';
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 0;
+  transition: background $transition, border-color $transition;
+
+  &--scrolled {
+    background: rgba(8, 11, 20, 0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid $border;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    font-family: $font-display;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $text;
+
+    span { color: $blue; }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    @media (max-width: 768px) { display: none; }
+  }
+
+  &__link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: $text-muted;
+    padding: 0.45rem 0.85rem;
+    border-radius: $radius-sm;
+    transition: color $transition, background $transition;
+
+    &:hover {
+      color: $text;
+      background: $surface;
+    }
+
+    &--active {
+      color: $blue;
+    }
+  }
+
+  &__cta {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $bg;
+    background: $blue;
+    padding: 0.45rem 1.1rem;
+    border-radius: $radius-sm;
+    transition: opacity $transition, transform $transition;
+    margin-left: 0.5rem;
+
+    &:hover { opacity: 0.88; transform: translateY(-1px); }
+  }
+}

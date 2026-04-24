@@ -1,0 +1,116 @@
+// styles/Projects.scss
+@import 'variables';
+
+.projects {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: border-color $transition, transform $transition, box-shadow $transition;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(transparent, rgba(14,18,32,0.6));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity $transition;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+      &::after { opacity: 1; }
+    }
+
+    &--blue   { &:hover { border-color: $blue-border;   box-shadow: 0 12px 40px rgba(79,158,248,0.1); } }
+    &--amber  { &:hover { border-color: $amber-border;  box-shadow: 0 12px 40px rgba(245,158,11,0.1); } }
+    &--green  { &:hover { border-color: $green-border;  box-shadow: 0 12px 40px rgba(16,185,129,0.1); } }
+    &--purple { &:hover { border-color: $purple-border; box-shadow: 0 12px 40px rgba(139,92,246,0.1); } }
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__card-icon {
+    width: 40px; height: 40px;
+    border-radius: $radius-sm;
+    display: flex; align-items: center; justify-content: center;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 500;
+
+    &--blue   { background: $blue-dim;   color: $blue;   border: 1px solid $blue-border; }
+    &--amber  { background: $amber-dim;  color: $amber;  border: 1px solid $amber-border; }
+    &--green  { background: $green-dim;  color: $green;  border: 1px solid $green-border; }
+    &--purple { background: $purple-dim; color: $purple; border: 1px solid $purple-border; }
+  }
+
+  &__card-links {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__card-link {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    color: $text-muted;
+    padding: 0.25rem 0.65rem;
+    border-radius: $radius-sm;
+    border: 1px solid $border;
+    transition: all $transition;
+
+    &:hover {
+      color: $text;
+      border-color: rgba(255,255,255,0.15);
+      background: $surface;
+    }
+  }
+
+  &__card-title {
+    font-family: $font-display;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__card-desc {
+    font-size: 0.88rem;
+    color: $text-muted;
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  &__card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__card-tag {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    color: $text-muted;
+    background: $surface;
+    border: 1px solid $border;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+  }
+}
