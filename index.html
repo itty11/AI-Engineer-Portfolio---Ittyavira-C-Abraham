@@ -707,15 +707,9 @@
     try {
         const res = await fetch('https://ai-engineer-portfolio-ittyavira-c-abraham.onrender.com/api/contact/', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '',
-            },
-            body: JSON.stringify({ name: name, email: email, message: msg }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message: msg }),
         });
-
-        const data = await res.json();
-        console.log('Response:', data);
 
         if (res.ok) {
             btn.textContent = '✓ Message sent!';
@@ -723,13 +717,11 @@
             document.getElementById('femail').value = '';
             document.getElementById('fmsg').value   = '';
         } else {
-            console.error('Error:', data);
-            btn.textContent = '✗ Failed: ' + JSON.stringify(data);
+            btn.textContent = '✗ Try again later.';
             btn.disabled = false;
         }
     } catch (err) {
-        console.error('Fetch error:', err);
-        btn.textContent = '✗ ' + err.message;
+        btn.textContent = '✗ Try again later.';
         btn.disabled = false;
     }
 
