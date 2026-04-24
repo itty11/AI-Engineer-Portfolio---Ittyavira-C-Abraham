@@ -5,3 +5,4 @@ pymongo[srv]==4.6.1
 dnspython==2.6.1
 python-dotenv==1.0.1
 certifi==2024.2.2
+gunicorn==21.2.0
