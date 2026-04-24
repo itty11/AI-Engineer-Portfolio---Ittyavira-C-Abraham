@@ -64,6 +64,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'ai-engineer-portfolio-ittyavira-c-abraham.onrender.com',
+    '.onrender.com',
 ]
 
 CORS_ALLOWED_ORIGINS = [
