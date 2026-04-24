@@ -60,9 +60,16 @@ DATABASES = {
 MONGO_URI     = os.getenv('MONGO_URI')
 MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'portfolio_db')
 
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'ai-engineer-portfolio-ittyavira-c-abraham.onrender.com',
+]
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://localhost:5173',
+    'http://127.0.0.1:5500',
+    'https://itty11.github.io',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
