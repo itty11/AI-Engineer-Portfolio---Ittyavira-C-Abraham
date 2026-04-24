@@ -327,6 +327,122 @@
     .anim-2 { animation-delay:.2s; }
     .anim-3 { animation-delay:.3s; }
     .anim-4 { animation-delay:.4s; }
+  
+    /* ── Mobile Responsive ─────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Fix hero name overlapping badge */
+  #home {
+    padding-top: 6rem;
+    align-items: flex-start;
+  }
+
+  .hero-name {
+    font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-badge {
+    margin-bottom: 1rem;
+    font-size: 0.65rem;
+  }
+
+  .hero-mono {
+    font-size: 0.78rem !important;
+    margin-bottom: 1rem;
+  }
+
+  .hero-bio {
+    font-size: 0.9rem !important;
+  }
+
+  /* Fix navbar logo size */
+  .nav-logo {
+    font-size: 1rem;
+  }
+
+  /* Fix skills cards */
+  .card-dark {
+    padding: 1rem;
+  }
+
+  /* Fix project cards */
+  .row.g-3 > .col-md-6 {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Fix contact layout */
+  .form-dark {
+    padding: 1.25rem;
+  }
+
+  /* Fix section padding */
+  section {
+    padding: 4rem 0;
+  }
+
+  /* Fix footer */
+  footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* Fix avatar hidden on mobile */
+  .col-lg-4 {
+    display: none !important;
+  }
+
+  /* Fix hero buttons */
+  .btn-primary-custom,
+  .btn-ghost-custom {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  /* Fix skill tags wrapping */
+  .skill-tag {
+    font-size: 0.65rem;
+    padding: 0.22rem 0.55rem;
+  }
+
+  /* Fix eyebrow label */
+  .eyebrow {
+    font-size: 0.65rem;
+  }
+
+  /* Fix section title */
+  .section-title {
+    font-size: 1.6rem !important;
+  }
+
+  /* Fix experience timeline */
+  .timeline-line {
+    min-height: 30px;
+  }
+
+  /* Fix cert cards */
+  .cert-tag {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-name {
+    font-size: clamp(1.8rem, 9vw, 2.8rem) !important;
+  }
+
+  .nav-logo {
+    font-size: 0.9rem;
+  }
+
+  .hero-badge {
+    font-size: 0.6rem;
+    padding: 0.25rem 0.65rem;
+  }
+}
   </style>
 </head>
 
