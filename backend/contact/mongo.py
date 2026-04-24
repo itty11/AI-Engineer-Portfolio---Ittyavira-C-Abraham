@@ -1,5 +1,6 @@
 # contact/mongo.py
 import certifi
+import ssl
 from pymongo import MongoClient
 from django.conf import settings
 
@@ -10,10 +11,12 @@ def get_db():
     if _client is None:
         _client = MongoClient(
             settings.MONGO_URI,
+            tls=True,
             tlsCAFile=certifi.where(),
-            serverSelectionTimeoutMS=5000,
-            connectTimeoutMS=5000,
-            socketTimeoutMS=5000,
+            serverSelectionTimeoutMS=10000,
+            connectTimeoutMS=10000,
+            socketTimeoutMS=10000,
+            retryWrites=True,
         )
     return _client[settings.MONGO_DB_NAME]
 
