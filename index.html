@@ -437,6 +437,26 @@
     font-size: 0.6rem;
     padding: 0.25rem 0.65rem;
   }
+
+  /* Fix navbar on mobile */
+.navbar-custom .container {
+  padding: 0 1rem;
+}
+
+.nav-logo {
+  font-size: clamp(0.75rem, 3.5vw, 1rem) !important;
+  max-width: 55vw;
+}
+
+.nav-cta {
+  font-size: 0.72rem !important;
+  padding: 0.35rem 0.7rem !important;
+}
+
+.nav-link-custom {
+  font-size: 0.75rem !important;
+  padding: 0.3rem 0.5rem !important;
+}
 }
   </style>
 </head>
@@ -445,14 +465,16 @@
 
 <!-- ══ NAVBAR ══ -->
 <nav class="navbar-custom" id="navbar">
-  <div class="container d-flex align-items-center justify-content-between">
+  <div class="container d-flex align-items-center gap-2" style="white-space:nowrap; overflow:hidden;">
     <a href="#home" class="nav-logo d-flex align-items-center gap-2">
   <img
     src="ai_avatar.png"
     alt="logo"
-    style="width:32px; height:32px; border-radius:8px; object-fit:cover;"
+    style="width:28px; height:28px; border-radius:6px; object-fit:cover; flex-shrink:0;"
   />
-  Ittyavira C Abraham<span>.</span>
+  <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:clamp(0.75rem, 3.5vw, 1.3rem);">
+  Ittyavira C Abraham<span style="color:var(--blue)">.</span>>
+</span>
 </a>
     <div class="d-flex align-items-center gap-1">
       <a href="#skills"     class="nav-link-custom">Skills</a>
