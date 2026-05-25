@@ -899,6 +899,30 @@
     });
   });
 
+// ── Hamburger menu ──────────────────────────────────
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  const isOpen = menu.style.display === 'flex';
+  menu.style.display = isOpen ? 'none' : 'flex';
+  icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
+}
+
+function closeMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  menu.style.display = 'none';
+  icon.className = 'bi bi-list';
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  const menu   = document.getElementById('mobile-menu');
+  const btn    = document.getElementById('hamburger-btn');
+  const navbar = document.getElementById('navbar');
+  if (!navbar.contains(e.target)) closeMenu();
+});
+
   // Form submit
   async function handleSend() {
     const name  = document.getElementById('fname').value.trim();
@@ -937,30 +961,6 @@
         btn.disabled = false;
     }, 5000);
 }
-
-// ── Hamburger menu ──────────────────────────────────
-function toggleMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const icon = document.getElementById('hamburger-icon');
-  const isOpen = menu.style.display === 'flex';
-  menu.style.display = isOpen ? 'none' : 'flex';
-  icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
-}
-
-function closeMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const icon = document.getElementById('hamburger-icon');
-  menu.style.display = 'none';
-  icon.className = 'bi bi-list';
-}
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-  const menu   = document.getElementById('mobile-menu');
-  const btn    = document.getElementById('hamburger-btn');
-  const navbar = document.getElementById('navbar');
-  if (!navbar.contains(e.target)) closeMenu();
-});
 
 </script>
 </body>
