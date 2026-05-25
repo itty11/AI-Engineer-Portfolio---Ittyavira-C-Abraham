@@ -465,24 +465,61 @@
 
 <!-- ══ NAVBAR ══ -->
 <nav class="navbar-custom" id="navbar">
-  <div class="container d-flex align-items-center gap-2" style="white-space:nowrap; overflow:hidden;">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <!-- Logo -->
     <a href="#home" class="nav-logo d-flex align-items-center gap-2">
-  <img
-    src="ai_avatar.png"
-    alt="logo"
-    style="width:28px; height:28px; border-radius:6px; object-fit:cover; flex-shrink:0;"
-  />
-  <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:clamp(0.75rem, 3.5vw, 1.3rem);">
-  Ittyavira C Abraham<span style="color:var(--blue)">.</span>>
-</span>
-</a>
-    <div class="d-flex align-items-center gap-1">
+      <img src="ai_avatar.png" alt="logo"
+        style="width:28px;height:28px;border-radius:6px;object-fit:cover;flex-shrink:0;" />
+      <span style="font-size:1rem;">Ittyavira C Abraham<span style="color:var(--blue)">.</span></span>
+    </a>
+
+    <!-- Desktop links -->
+    <div class="d-none d-lg-flex align-items-center gap-1">
       <a href="#skills"     class="nav-link-custom">Skills</a>
       <a href="#projects"   class="nav-link-custom">Projects</a>
       <a href="#experience" class="nav-link-custom">Experience</a>
       <a href="#contact"    class="nav-link-custom">Contact</a>
-      <a href="Ittyavira_C_Abraham_AI_Engineer_Resume.pdf"  class="nav-cta ms-2">Resume</a>
+      <a href="Ittyavira_C_Abraham_AI_Engineer_Resume.pdf" class="nav-cta ms-2">Resume</a>
     </div>
+
+    <!-- Hamburger button (mobile only) -->
+    <button
+      class="d-lg-none"
+      id="hamburger-btn"
+      onclick="toggleMenu()"
+      style="
+        background:none; border:1px solid var(--border);
+        border-radius:8px; padding:6px 10px;
+        color:var(--text); font-size:1.2rem; cursor:pointer;
+      "
+      aria-label="Toggle menu"
+    >
+      <i class="bi bi-list" id="hamburger-icon"></i>
+    </button>
+
+  </div>
+
+  <!-- Mobile dropdown menu -->
+  <div id="mobile-menu" style="
+    display:none;
+    background:rgba(8,11,20,0.97);
+    backdrop-filter:blur(16px);
+    border-top:1px solid var(--border);
+    padding:1rem;
+    flex-direction:column;
+    gap:0.25rem;
+  ">
+    <a href="#skills"     class="nav-link-custom" onclick="closeMenu()">Skills</a>
+    <a href="#projects"   class="nav-link-custom" onclick="closeMenu()">Projects</a>
+    <a href="#experience" class="nav-link-custom" onclick="closeMenu()">Experience</a>
+    <a href="#contact"    class="nav-link-custom" onclick="closeMenu()">Contact</a>
+    <a href="Ittyavira_C_Abraham_AI_Engineer_Resume.pdf"
+      class="nav-cta mt-2 text-center"
+      style="display:block; border-radius:8px; padding:0.6rem;"
+      target="_blank">
+      Resume
+    </a>
   </div>
 </nav>
 
@@ -900,6 +937,31 @@
         btn.disabled = false;
     }, 5000);
 }
+
+// ── Hamburger menu ──────────────────────────────────
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  const isOpen = menu.style.display === 'flex';
+  menu.style.display = isOpen ? 'none' : 'flex';
+  icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
+}
+
+function closeMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  menu.style.display = 'none';
+  icon.className = 'bi bi-list';
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  const menu   = document.getElementById('mobile-menu');
+  const btn    = document.getElementById('hamburger-btn');
+  const navbar = document.getElementById('navbar');
+  if (!navbar.contains(e.target)) closeMenu();
+});
+
 </script>
 </body>
 </html>
