@@ -87,9 +87,21 @@ export const projects = [
 
 export const experience = [
   {
-    role:    'AI Engineer',
+    role:    'AI Engineer Intern',
+    company: 'Cyber Intelligence Corps (CIC)',
+    period:  'May, 2026 – Present',
+    points:  [
+      'Building computer vision and AI surveillance systems using OpenCV and deep learning.',
+      'Working on facial recognition pipeline using FAISS for real-time identity matching.',
+      'Developing Leave Management and Attendance Dashboard backend using FastAPI with RBAC.',
+    ],
+    current: true,   
+  },
+
+  {
+    role:    'AI/ML Intern',
     company: 'Edunet Foundations and Microsoft (AICTE)',
-    period:  '2025',
+    period:  'April, 2025 - May, 2025',
     points:  [
       'Applied supervised and unsupervised learning techniques using Azure AI services.',
       'Worked on AI-based problem solving under industry mentorship.',
