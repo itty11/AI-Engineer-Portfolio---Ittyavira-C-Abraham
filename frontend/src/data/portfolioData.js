@@ -120,17 +120,47 @@ export const education = [
   {
     degree: 'MCA with Artificial Intelligence',
     school: 'Amrita Vishwa Vidyapeetham',
-    year:   '2025',
+    year:   '2023 - 2025',
   },
   {
     degree: 'BCA',
     school: 'IFIM College',
-    year:   '2023',
+    year:   '2019 - 2023',
   },
 ];
 
 export const certifications = [
-  { name: 'Google Cloud',                  tag: 'GCP',       color: 'green'  },
-  { name: 'Microsoft AI & ML Engineering', tag: 'Azure',     color: 'blue'   },
-  { name: 'IBM Generative AI for LLMs',    tag: 'LangChain', color: 'amber'  },
+  {
+    name:  'Google Cloud',
+    tag:   'GCP',
+    color: 'green',
+    link:  'https://www.skills.google/public_profiles/ad4fa8bc-5558-4d40-a62a-df80872b9e77',
+  },
+  {
+    name:  'Microsoft AI & ML Engineering',
+    tag:   'Azure',
+    color: 'blue',
+    link:  'https://coursera.org/share/639e7131094995077dce215906c37366',
+  },
+  {
+    name:  'IBM Generative AI for LLMs',
+    tag:   'LangChain',
+    color: 'amber',
+    link:  'https://coursera.org/share/5a4ca063031b9d7c4aacb61496619d7c',
+  },
+];
+
+export const publications = [
+  {
+    title:    'Role of Data Mining in Customer Relationship Management: A Conceptual Review',
+    journal:  'International Journal of Research (IJR)',
+    date:     'Apr 6, 2022',
+    link:     'https://ijrjournal.com/index.php/ijr/article/view/450',
+    description: 'Explores how Data Mining enhances Customer Relationship Management (CRM) by enabling organizations to transform customer data into meaningful business insights. Examines predictive analytics, classification, clustering, association analysis, and pattern discovery to support customer behavior analysis, trend forecasting, and data-driven decision making.',
+    tags: [
+      'Data Mining', 'CRM', 'Machine Learning',
+      'Predictive Analytics', 'Business Intelligence',
+      'Customer Analytics', 'Churn Prediction',
+    ],
+  },
 ];
