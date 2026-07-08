@@ -1,0 +1,21 @@
+// styles/Publications.scss
+@import 'variables';
+
+.publications {
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    padding: 1.75rem;
+    max-width: 860px;
+    transition: border-color $transition, transform $transition;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      border-color: $blue-border;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(79,158,248,0.08);
+    }
+  }
+}

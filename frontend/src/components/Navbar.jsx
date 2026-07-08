@@ -2,7 +2,7 @@
 import useScrollSpy from '../hooks/useScrollSpy';
 import '../styles/Navbar.scss';
 
-const SECTIONS = ['home', 'skills', 'projects', 'experience', 'contact'];
+const SECTIONS = ['home', 'skills', 'projects', 'experience', 'publications', 'contact'];
 
 const Navbar = ({ name }) => {
   const { activeId, scrolled } = useScrollSpy(SECTIONS);
@@ -25,7 +25,7 @@ const Navbar = ({ name }) => {
               className={`navbar__link ${activeId === id ? 'navbar__link--active' : ''}`}
               onClick={() => scrollTo(id)}
             >
-              {id.charAt(0).toUpperCase() + id.slice(1)}
+              {id === 'publications' ? 'Research' : id.charAt(0).toUpperCase() + id.slice(1)}
             </button>
           ))}
           <a
