@@ -22,12 +22,17 @@ export const skills = [
   {
     category: 'Deep Learning',
     color: 'purple',
-    items: ['TensorFlow', 'LSTM', 'SARIMA', 'Time Series Forecasting'],
+    items: ['TensorFlow', 'Keras', 'PyTorch', 'LSTM', 'SARIMA', 'Time Series Forecasting'],
   },
   {
     category: 'Generative AI & NLP',
     color: 'amber',
     items: ['NLP', 'Transformers', 'Generative AI', 'RAG', 'Prompt Engineering', 'LangChain', 'Hugging Face', 'OpenAI APIs'],
+  },
+  {
+    category: 'Computer Vision',
+    color: 'purple',
+    items: ['OpenCV', 'FAISS', 'SORT Tracking', 'CLAHE', 'Face Recognition', 'Docker'],
   },
   {
     category: 'Backend & APIs',
