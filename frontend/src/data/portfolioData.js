@@ -90,6 +90,15 @@ export const projects = [
     github:      'https://github.com/itty11/BERT-based-News-Classifier',
     demo:        null,
   },
+  {
+    title:       'Exam PredictorAI',
+    description: 'AI-powered exam question predictor that analyses past exam papers and generates predicted question papers as downloadable PDFs. Achieves 90–100% question repetition detection accuracy using SBERT semantic embeddings vs 60% TF-IDF baseline. Full pipeline: PDF extraction, semantic similarity, LLM prediction, PDF generation. JWT-secured REST API with session management and real-time analysis progress with live polling.',
+    tags:        ['SBERT', 'LangChain', 'FastAPI', 'React', 'PyMuPDF', 'ReportLab', 'JWT', 'Groq API'],
+    color:       'teal',
+    icon:        'AI',
+    github:      'https://github.com/itty11/AI-Powered-Exam-Prediction-System',
+    demo:        null,
+  },
 ];
 
 export const experience = [
