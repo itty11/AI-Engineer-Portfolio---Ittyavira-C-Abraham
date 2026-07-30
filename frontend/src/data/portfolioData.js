@@ -10,6 +10,8 @@ export const personal = {
   linkedin:  'https://www.linkedin.com/in/ittyavira-c-abraham-5435621b7/',
   leetcode:  'https://leetcode.com/u/good_master11/',       
   hackerrank:'https://www.hackerrank.com/profile/ittyavirac_abra1',
+  huggingface:'https://huggingface.co/ittyavira',
+  kaggle:     'https://www.kaggle.com/ittyaviracabraham',
   resume:    'Ittyavira_C_Abraham_AI_Engineer_Resume.pdf',
   location:  'India',
   available:  true,
