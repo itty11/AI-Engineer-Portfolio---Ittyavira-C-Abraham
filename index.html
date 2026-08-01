@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Engineer Portfolio</title>
-  <link rel="icon" type="image/png" href="ai_avatar.png" />
+  <link rel="icon" type="image/png" href="ai_avatar_og.png" />
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -458,6 +458,218 @@
   padding: 0.3rem 0.5rem !important;
 }
 }
+
+/* ── AI Chatbot Widget ─────────────────────────── */
+#chat-btn {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(79,158,248,0.4);
+  z-index: 999;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+  padding: 0;
+}
+#chat-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(79,158,248,0.5);
+}
+#chat-btn img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: scale(1.35);
+}
+
+#chat-widget {
+  position: fixed;
+  bottom: 6rem; right: 2rem;
+  width: 320px;
+  max-width: calc(100vw - 3rem);
+  max-height: 80vh;
+  background: #0e1220;
+  border: 1px solid rgba(79,158,248,0.25);
+  border-radius: 20px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: fadeUp .3s ease both;
+}
+
+#chat-header {
+  background: rgba(79,158,248,0.1);
+  border-bottom: 1px solid rgba(79,158,248,0.15);
+  padding: .85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+#chat-header img {
+  width: 38px; height: 38px;
+  border-radius: 60%;
+  object-fit: cover;
+  object-position: top center;
+  border: 2px solid var(--blue);
+}
+#chat-header-info .name {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+#chat-header-info .status {
+  font-size: .68rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+#chat-header-info .status::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+#chat-close {
+  margin-left: auto;
+  background: none; border: none;
+  color: var(--muted); font-size: 1.1rem;
+  cursor: pointer; padding: .25rem;
+}
+
+#avatar-video-container {
+  position: relative;
+  background: #080b14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  min-height: 220px;
+}
+#avatar-video {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 3px solid rgba(79,158,248,0.4);
+  background-color: #ffffff;
+  box-shadow: 0 0 30px rgba(79,158,248,0.2);
+}
+#avatar-video.speaking {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 6px rgba(79,158,248,0.15),
+              0 0 30px rgba(79,158,248,0.3);
+  animation: avatarPulse 1s ease-in-out infinite;
+}
+@keyframes avatarPulse {
+  0%,100% { box-shadow: 0 0 0 4px rgba(79,158,248,0.15), 0 0 30px rgba(79,158,248,0.2); }
+  50%      { box-shadow: 0 0 0 10px rgba(79,158,248,0.08), 0 0 40px rgba(79,158,248,0.35); }
+}
+
+#chat-messages {
+  height: 160px;
+  overflow-y: auto;
+  padding: .75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.chat-msg {
+  max-width: 85%;
+  padding: .5rem .85rem;
+  border-radius: 12px;
+  font-size: .82rem;
+  line-height: 1.5;
+}
+.chat-msg.bot {
+  background: rgba(79,158,248,0.1);
+  border: 1px solid rgba(79,158,248,0.15);
+  color: var(--text);
+  align-self: flex-start;
+  border-radius: 4px 12px 12px 12px;
+}
+.chat-msg.user {
+  background: var(--blue);
+  color: #080b14;
+  align-self: flex-end;
+  border-radius: 12px 12px 4px 12px;
+  font-weight: 500;
+}
+.typing-dots {
+  display: flex; gap: 4px;
+  align-items: center;
+  padding: .5rem .85rem;
+  background: rgba(79,158,248,0.08);
+  border-radius: 4px 12px 12px 12px;
+  width: fit-content;
+}
+.typing-dots span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: typingDot 1.2s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: .2s; }
+.typing-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes typingDot {
+  0%,60%,100% { transform: translateY(0); opacity:.4; }
+  30%          { transform: translateY(-6px); opacity:1; }
+}
+
+#chat-input-row {
+  display: flex;
+  gap: .5rem;
+  padding: .75rem 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+#chat-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Mulish', sans-serif;
+  font-size: .82rem;
+  padding: .5rem .85rem;
+  outline: none;
+}
+#chat-input:focus {
+  border-color: rgba(79,158,248,0.4);
+}
+#chat-input::placeholder { color: var(--muted); }
+#chat-send {
+  background: var(--blue);
+  border: none; border-radius: 10px;
+  color: #080b14;
+  font-size: .82rem; font-weight: 600;
+  padding: .5rem 1rem;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+#chat-send:hover { opacity: .85; }
+#chat-mic {
+  background: rgba(79,158,248,0.1);
+  border: 1px solid rgba(79,158,248,0.2);
+  border-radius: 10px;
+  color: var(--blue);
+  font-size: .9rem;
+  padding: .5rem .65rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+#chat-mic:hover { background: rgba(79,158,248,0.2); }
+#chat-mic.listening {
+  background: rgba(239,68,68,0.15);
+  border-color: rgba(239,68,68,0.4);
+  color: #ef4444;
+  animation: pulse 1s infinite;
+}
   </style>
 </head>
 
@@ -469,7 +681,7 @@
 
     <!-- Logo -->
     <a href="#home" class="nav-logo d-flex align-items-center gap-2">
-      <img src="ai_avatar.png" alt="logo"
+      <img src="ai_avatar_og.png" alt="logo"
         style="width:28px;height:28px;border-radius:6px;object-fit:cover;flex-shrink:0;" />
       <span style="font-size:1rem;">Ittyavira C Abraham<span style="color:var(--blue)">.</span></span>
     </a>
@@ -1137,6 +1349,57 @@
   </div>
 </footer>
 
+<!-- ══ AI CHATBOT WIDGET ══ -->
+
+<!-- Floating button -->
+<button id="chat-btn" onclick="toggleChat()" title="Chat with Ittyavira's AI">
+  <img src="ai_avatar.png" alt="AI Assistant" />
+</button>
+
+<!-- Chat window -->
+<div id="chat-widget">
+
+  <!-- Header -->
+  <div id="chat-header">
+    <img src="ai_avatar.png" alt="Ittyavira" />
+    <div id="chat-header-info">
+      <div class="name">Ittyavira's AI Assistant</div>
+      <div class="status">Online</div>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <!-- Avatar video -->
+  <div id="avatar-video-container">
+    <video
+      id="avatar-video"
+      src="Bot.mp4"
+      playsinline
+      preload="auto"
+    ></video>
+  </div>
+
+  <!-- Messages -->
+  <div id="chat-messages">
+    <div class="chat-msg bot">
+      Hi! I'm Ittyavira's AI assistant 👋 Ask me anything about his skills, projects, or experience!
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div id="chat-input-row">
+    <input
+      id="chat-input"
+      type="text"
+      placeholder="Ask me anything..."
+      onkeydown="if(event.key==='Enter') sendMessage()"
+    />
+    <button id="chat-mic" onclick="startVoice()" title="Speak">🎤</button>
+    <button id="chat-send" onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // Navbar scroll
@@ -1157,6 +1420,134 @@
       l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
     });
   });
+
+// ── Chatbot ─────────────────────────────────────────
+
+const BACKEND_URL = 'https://ai-engineer-portfolio-ittyavira-c-abraham.onrender.com';
+//const BACKEND_URL = 'http://127.0.0.1:8000';
+const avatarVideo  = document.getElementById('avatar-video');
+const chatMessages = document.getElementById('chat-messages');
+let   chatOpen     = false;
+let   introPlayed  = false;
+
+// Toggle chat window
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const widget = document.getElementById('chat-widget');
+  widget.style.display = chatOpen ? 'flex' : 'none';
+  if (chatOpen && !introPlayed) {
+    setTimeout(playIntro, 500);
+    introPlayed = true;
+  }
+}
+
+// Play D-ID intro video
+function playIntro() {
+  avatarVideo.classList.add('speaking');
+  avatarVideo.play();
+  avatarVideo.onended = () => {
+    avatarVideo.classList.remove('speaking');
+  };
+}
+
+// Add message bubble
+function addMessage(text, sender) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${sender}`;
+  div.textContent = text;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Show typing dots
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = 'typing-dots';
+  div.id = 'typing';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+// Speak text using Web Speech API
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate   = 0.95;
+  utter.pitch  = 1;
+  utter.volume = 1;
+
+  utter.onstart = () => {
+    avatarVideo.classList.add('speaking');
+  };
+  utter.onend = () => {
+    avatarVideo.classList.remove('speaking');
+  };
+
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v =>
+    v.name.includes('Google') || v.name.includes('Natural') || v.lang === 'en-US'
+  );
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
+}
+
+// Send message to Django RAG backend
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  addMessage(text, 'user');
+  showTyping();
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/chat/`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ message: text }),
+    });
+    const data = await res.json();
+    hideTyping();
+    const reply = data.reply || 'Sorry, I could not get a response.';
+    addMessage(reply, 'bot');
+    speakText(reply);
+  } catch (err) {
+    hideTyping();
+    addMessage('Sorry, the AI is sleeping 😴 Try again in a moment!', 'bot');
+  }
+}
+
+// Voice input
+function startVoice() {
+  const mic = document.getElementById('chat-mic');
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    alert('Voice not supported. Try Chrome.');
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SR();
+  recognition.lang  = 'en-US';
+  recognition.start();
+  mic.classList.add('listening');
+  recognition.onresult = (e) => {
+    document.getElementById('chat-input').value = e.results[0][0].transcript;
+    mic.classList.remove('listening');
+    sendMessage();
+  };
+  recognition.onerror = () => mic.classList.remove('listening');
+  recognition.onend   = () => mic.classList.remove('listening');
+}
+
+// Load voices
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 
 // ── Hamburger menu ──────────────────────────────────
 function toggleMenu() {

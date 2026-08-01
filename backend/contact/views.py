@@ -1,4 +1,7 @@
 # contact/views.py
+import os
+from groq import Groq
+from .portfolio_context import PORTFOLIO_CONTEXT
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -74,3 +77,40 @@ class ContactDetailView(APIView):
         col = get_messages_collection()
         col.delete_one({'_id': ObjectId(pk)})
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ChatView(APIView):
+    def post(self, request):
+        user_message = request.data.get('message', '').strip()
+        if not user_message:
+            return Response({'error': 'Message required.'}, status=400)
+
+        client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+        completion = client.chat.completions.create(
+            model='llama-3.1-8b-instant',
+            messages=[
+                {
+                    'role': 'system',
+                    'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
+Answer questions based ONLY on this information:
+
+{PORTFOLIO_CONTEXT}
+
+Rules:
+- Be friendly, concise and professional
+- Answer in 2-4 sentences max
+- If asked something not in the data, say "I don't have that info, but you can contact Ittyavira directly!"
+- Speak as if you ARE Ittyavira (first person)
+- Never make up information"""
+                },
+                {
+                    'role': 'user',
+                    'content': user_message
+                }
+            ],
+            max_tokens=200,
+            temperature=0.7,
+        )
+
+        reply = completion.choices[0].message.content
+        return Response({'reply': reply})
