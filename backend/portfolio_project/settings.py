@@ -67,6 +67,9 @@ ALLOWED_HOSTS = [
     '.onrender.com',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
@@ -81,12 +84,10 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://localhost:5500',
     'http://127.0.0.1:5500',
     'https://itty11.github.io',
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [

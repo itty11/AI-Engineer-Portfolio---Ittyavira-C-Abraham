@@ -78,21 +78,26 @@ class ContactDetailView(APIView):
         col.delete_one({'_id': ObjectId(pk)})
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ChatView(APIView):
     def post(self, request):
         user_message = request.data.get('message', '').strip()
         if not user_message:
-            return Response({'error': 'Message required.'}, status=400)
-
-        client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-
-        completion = client.chat.completions.create(
-            model='llama-3.1-8b-instant',
-            messages=[
-                {
-                    'role': 'system',
-                    'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
+            return Response(
+                {'error': 'Message required.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+            completion = client.chat.completions.create(
+                model='llama3-8b-8192',
+                messages=[
+                    {
+                        'role': 'system',
+                        'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
 Answer questions based ONLY on this information:
 
 {PORTFOLIO_CONTEXT}
@@ -100,18 +105,24 @@ Answer questions based ONLY on this information:
 Rules:
 - Be friendly, concise and professional
 - Answer in 2-4 sentences max
-- If asked something not in the data, say "I don't have that info, but you can contact Ittyavira directly!"
-- Speak as if you ARE Ittyavira (first person)
+- Speak in first person as Ittyavira
+- If asked something not in the data say:
+  I don't have that info, but you can contact me directly!
 - Never make up information"""
-                },
-                {
-                    'role': 'user',
-                    'content': user_message
-                }
-            ],
-            max_tokens=200,
-            temperature=0.7,
-        )
-
-        reply = completion.choices[0].message.content
-        return Response({'reply': reply})
+                    },
+                    {
+                        'role': 'user',
+                        'content': user_message
+                    }
+                ],
+                max_tokens=200,
+                temperature=0.7,
+            )
+            reply = completion.choices[0].message.content
+            return Response({'reply': reply})
+        except Exception as e:
+            print(f"Chat error: {e}")
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
