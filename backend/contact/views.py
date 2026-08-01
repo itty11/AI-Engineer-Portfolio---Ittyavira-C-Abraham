@@ -78,6 +78,7 @@ class ContactDetailView(APIView):
         col.delete_one({'_id': ObjectId(pk)})
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ChatView(APIView):
     def post(self, request):
         user_message = request.data.get('message', '').strip()
