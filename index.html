@@ -1574,27 +1574,43 @@ function hideTyping() {
   if (t) t.remove();
 }
 
+// Pre-fetch voices for Mobile Safari / Android Chrome
+let availableVoices = [];
+
+function loadVoices() {
+  if (typeof speechSynthesis !== 'undefined') {
+    availableVoices = speechSynthesis.getVoices();
+  }
+}
+
+// Trigger initial load & listen for async load event on mobile
+loadVoices();
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
 // Speak text using Web Speech API
 function speakText(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.rate   = 0.95;
-  utter.pitch  = 0.9;
+  utter.pitch  = 0.75;
   utter.volume = 1;
-
+  
   utter.onstart = () => {
-    avatarVideo.classList.add('speaking');
+    const avatar = document.getElementById('avatar-video');
+    if (avatar) avatar.classList.add('speaking');
   };
   utter.onend = () => {
-    avatarVideo.classList.remove('speaking');
+    const avatar = document.getElementById('avatar-video');
+    if (avatar) avatar.classList.remove('speaking');
   };
 
-  const voices = window.speechSynthesis.getVoices();
+  let voices = availableVoices.length ? availableVoices : window.speechSynthesis.getVoices();
   
   const maleKeywords = [
-    'david', 'mark', 'guy', 'george', 'male', 'andrew', 
-    'aaron', 'daniel', 'james', 'john', 'rishi', 'arthur', 'google us english male'
+    'david', 'mark', 'guy', 'george', 'andrew', 'aaron', 'daniel', 
+    'james', 'john', 'rishi', 'arthur', 'male', 'en-us-x', 'google us english'
   ];
 
   let preferred = voices.find(v => 
@@ -1603,7 +1619,10 @@ function speakText(text) {
   );
 
   if (!preferred) {
-    const femaleKeywords = ['samantha', 'victoria', 'karen', 'zira', 'fiona', 'moira', 'veena'];
+    const femaleKeywords = [
+      'samantha', 'victoria', 'karen', 'zira', 'fiona', 
+      'moira', 'veena', 'kyoko', 'female', 'woman', 'google uk english female'
+    ];
     preferred = voices.find(v => 
       v.lang.startsWith('en') && 
       !femaleKeywords.some(key => v.name.toLowerCase().includes(key))
@@ -1615,6 +1634,7 @@ function speakText(text) {
   }
 
   if (preferred) utter.voice = preferred;
+
   window.speechSynthesis.speak(utter);
 }
 
