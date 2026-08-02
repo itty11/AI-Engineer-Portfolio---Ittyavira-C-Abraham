@@ -732,6 +732,45 @@
   #chat-widget[style*="display:block"] ~ #chat-btn {
     display: none !important;
   }
+
+  /* ── Footer Mobile Responsive Fix ── */
+@media (max-width: 768px) {
+  footer {
+    padding: 2rem 1rem 5rem 1rem !important; /* Bottom padding gives room for floating chat button */
+    overflow: hidden;
+  }
+
+  footer .container,
+  footer div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Wrap horizontal bullet points into stacked text on mobile */
+  footer p, 
+  footer span, 
+  footer .text-muted {
+    white-space: normal !important;
+    word-break: break-word !important;
+    font-size: 0.75rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Wrap social links grid cleanly */
+  footer .d-flex,
+  footer .social-links-wrapper { /* Replace or match your social links wrapper */
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.5rem 1rem !important;
+  }
+}
+
   </style>
 </head>
 
