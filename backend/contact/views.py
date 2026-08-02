@@ -91,11 +91,12 @@ class ChatView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         try:
-            from groq import Groq
-            client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-            completion = client.chat.completions.create(
-                model='llama3-8b-8192',
-                messages=[
+            import requests as req
+            groq_key = os.getenv('GROQ_API_KEY')
+
+            payload = {
+                'model': 'llama3-8b-8192',
+                'messages': [
                     {
                         'role': 'system',
                         'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
@@ -107,7 +108,7 @@ Rules:
 - Be friendly, concise and professional
 - Answer in 2-4 sentences max
 - Speak in first person as Ittyavira
-- If asked something not in the data say I don't have that info but you can contact me directly
+- If asked something not in the data say I dont have that info but you can contact me directly
 - Never make up information"""
                     },
                     {
@@ -115,11 +116,26 @@ Rules:
                         'content': user_message
                     }
                 ],
-                max_tokens=200,
-                temperature=0.7,
+                'max_tokens': 200,
+                'temperature': 0.7,
+            }
+
+            headers = {
+                'Authorization': f'Bearer {groq_key}',
+                'Content-Type': 'application/json',
+            }
+
+            response = req.post(
+                'https://api.groq.com/openai/v1/chat/completions',
+                json=payload,
+                headers=headers,
+                timeout=30
             )
-            reply = completion.choices[0].message.content
+
+            data = response.json()
+            reply = data['choices'][0]['message']['content']
             return Response({'reply': reply})
+
         except Exception as e:
             print(f"Chat error: {e}")
             return Response(
