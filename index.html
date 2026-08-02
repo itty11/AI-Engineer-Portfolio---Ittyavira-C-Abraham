@@ -1479,7 +1479,7 @@ function speakText(text) {
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.rate   = 0.95;
-  utter.pitch  = 1;
+  utter.pitch  = 0.9;
   utter.volume = 1;
 
   utter.onstart = () => {
@@ -1490,16 +1490,29 @@ function speakText(text) {
   };
 
   const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find(v => 
-    v.lang.startsWith('en') && (
-      v.name.includes('David') || 
-      v.name.includes('Mark') || 
-      v.name.includes('Guy') || 
-      v.name.includes('Male') ||
-      v.name.includes('George') ||
-      v.name.includes('Google US English')
-    )
-  ) || voices.find(v => v.lang.startsWith('en'));
+  
+  const maleKeywords = [
+    'david', 'mark', 'guy', 'george', 'male', 'andrew', 
+    'aaron', 'daniel', 'james', 'john', 'rishi', 'arthur', 'google us english male'
+  ];
+
+  let preferred = voices.find(v => 
+    v.lang.startsWith('en') && 
+    maleKeywords.some(key => v.name.toLowerCase().includes(key))
+  );
+
+  if (!preferred) {
+    const femaleKeywords = ['samantha', 'victoria', 'karen', 'zira', 'fiona', 'moira', 'veena'];
+    preferred = voices.find(v => 
+      v.lang.startsWith('en') && 
+      !femaleKeywords.some(key => v.name.toLowerCase().includes(key))
+    );
+  }
+
+  if (!preferred) {
+    preferred = voices.find(v => v.lang.startsWith('en'));
+  }
+
   if (preferred) utter.voice = preferred;
   window.speechSynthesis.speak(utter);
 }
