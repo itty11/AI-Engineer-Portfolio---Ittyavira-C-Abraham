@@ -94,6 +94,12 @@ class ChatView(APIView):
             import requests as req
             groq_key = os.getenv('GROQ_API_KEY')
 
+            if not groq_key:
+                return Response(
+                    {'error': 'API key not configured'},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
             payload = {
                 'model': 'llama3-8b-8192',
                 'messages': [
@@ -108,7 +114,6 @@ Rules:
 - Be friendly, concise and professional
 - Answer in 2-4 sentences max
 - Speak in first person as Ittyavira
-- If asked something not in the data say I dont have that info but you can contact me directly
 - Never make up information"""
                     },
                     {
@@ -133,6 +138,14 @@ Rules:
             )
 
             data = response.json()
+            print(f"Groq response: {data}")  # debug log
+
+            if response.status_code != 200:
+                return Response(
+                    {'error': f"Groq error: {data}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+
             reply = data['choices'][0]['message']['content']
             return Response({'reply': reply})
 
