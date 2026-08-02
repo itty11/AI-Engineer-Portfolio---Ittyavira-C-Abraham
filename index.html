@@ -1408,7 +1408,7 @@
   });
 
   // Active nav link
-  const sections = ['home','skills','projects','experience','contact'];
+  const sections = ['home','skills','projects','experience', 'publications','contact'];
   window.addEventListener('scroll', () => {
     const links = document.querySelectorAll('.nav-link-custom');
     let current = '';
@@ -1490,11 +1490,28 @@ function speakText(text) {
   };
 
   const voices = window.speechSynthesis.getVoices();
-  const preferred = voices.find(v =>
-    v.name.includes('Google') || v.name.includes('Natural') || v.lang === 'en-US'
-  );
+  const preferred = voices.find(v => 
+    v.lang.startsWith('en') && (
+      v.name.includes('David') || 
+      v.name.includes('Mark') || 
+      v.name.includes('Guy') || 
+      v.name.includes('Male') ||
+      v.name.includes('George') ||
+      v.name.includes('Google US English')
+    )
+  ) || voices.find(v => v.lang.startsWith('en'));
   if (preferred) utter.voice = preferred;
   window.speechSynthesis.speak(utter);
+}
+
+// Load voices asynchronously for mobile browsers
+let voices = [];
+function updateVoices() {
+  voices = window.speechSynthesis.getVoices();
+}
+updateVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+  window.speechSynthesis.onvoiceschanged = updateVoices;
 }
 
 // Send message to Django RAG backend
