@@ -12,6 +12,26 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Mulish:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://code.responsivevoice.org/responsivevoice.js">
+    // ResponsiveVoice replaces Web Speech API for guaranteed male voice across devices
+       function speakText(text) {
+        if (typeof responsiveVoice !== 'undefined') {
+          responsiveVoice.cancel();
+          responsiveVoice.speak(text, "UK English Male", {
+            pitch: 0.8,
+            rate: 0.95,
+            onstart: () => {
+              const avatar = document.getElementById('avatar-video');
+              if (avatar) avatar.classList.add('speaking');
+            },
+            onend: () => {
+              const avatar = document.getElementById('avatar-video');
+              if (avatar) avatar.classList.remove('speaking');
+            }
+          });
+        }
+      }
+  </script>
 
   <style>
     :root {
@@ -1572,80 +1592,6 @@ function showTyping() {
 function hideTyping() {
   const t = document.getElementById('typing');
   if (t) t.remove();
-}
-
-// Pre-fetch voices for Mobile Safari / Android Chrome
-let availableVoices = [];
-
-function loadVoices() {
-  if (typeof speechSynthesis !== 'undefined') {
-    availableVoices = speechSynthesis.getVoices();
-  }
-}
-
-// Trigger initial load & listen for async load event on mobile
-loadVoices();
-if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = loadVoices;
-}
-// Speak text using Web Speech API
-function speakText(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.rate   = 0.95;
-  utter.pitch  = 0.75;
-  utter.volume = 1;
-  
-  utter.onstart = () => {
-    const avatar = document.getElementById('avatar-video');
-    if (avatar) avatar.classList.add('speaking');
-  };
-  utter.onend = () => {
-    const avatar = document.getElementById('avatar-video');
-    if (avatar) avatar.classList.remove('speaking');
-  };
-
-  let voices = availableVoices.length ? availableVoices : window.speechSynthesis.getVoices();
-  
-  const maleKeywords = [
-    'david', 'mark', 'guy', 'george', 'andrew', 'aaron', 'daniel', 
-    'james', 'john', 'rishi', 'arthur', 'male', 'en-us-x', 'google us english'
-  ];
-
-  let preferred = voices.find(v => 
-    v.lang.startsWith('en') && 
-    maleKeywords.some(key => v.name.toLowerCase().includes(key))
-  );
-
-  if (!preferred) {
-    const femaleKeywords = [
-      'samantha', 'victoria', 'karen', 'zira', 'fiona', 
-      'moira', 'veena', 'kyoko', 'female', 'woman', 'google uk english female'
-    ];
-    preferred = voices.find(v => 
-      v.lang.startsWith('en') && 
-      !femaleKeywords.some(key => v.name.toLowerCase().includes(key))
-    );
-  }
-
-  if (!preferred) {
-    preferred = voices.find(v => v.lang.startsWith('en'));
-  }
-
-  if (preferred) utter.voice = preferred;
-
-  window.speechSynthesis.speak(utter);
-}
-
-// Load voices asynchronously for mobile browsers
-let voices = [];
-function updateVoices() {
-  voices = window.speechSynthesis.getVoices();
-}
-updateVoices();
-if (window.speechSynthesis.onvoiceschanged !== undefined) {
-  window.speechSynthesis.onvoiceschanged = updateVoices;
 }
 
 // Send message to Django RAG backend
