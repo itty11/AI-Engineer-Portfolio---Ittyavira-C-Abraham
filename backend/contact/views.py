@@ -1,5 +1,6 @@
 # contact/views.py
 import os
+import requests as req
 from groq import Groq
 from .portfolio_context import PORTFOLIO_CONTEXT
 from rest_framework.views import APIView
@@ -83,29 +84,23 @@ from django.utils.decorators import method_decorator
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ChatView(APIView):
-    def post(self, request):
-        user_message = request.data.get('message', '').strip()
-        if not user_message:
-            return Response(
-                {'error': 'Message required.'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        try:
-            import requests as req
-            groq_key = os.getenv('GROQ_API_KEY')
 
-            if not groq_key:
-                return Response(
-                    {'error': 'API key not configured'},
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+  def post(self, request):
+    user_message = request.data.get('message', '').strip()
+    if not user_message:
+      return Response(
+          {'error': 'Message required.'}, status=status.HTTP_400_BAD_REQUEST
+      )
 
-            payload = {
-                'model': 'llama3-8b-8192',
-                'messages': [
-                    {
-                        'role': 'system',
-                        'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
+    try:
+      groq_key = os.getenv('GROQ_API_KEY')
+
+      payload = {
+          'model': 'llama-3.1-8b-instant',  # MUST BE llama-3.1-8b-instant
+          'messages': [
+              {
+                  'role': 'system',
+                  'content': f"""You are Ittyavira C Abraham's AI portfolio assistant.
 Answer questions based ONLY on this information:
 
 {PORTFOLIO_CONTEXT}
@@ -114,44 +109,41 @@ Rules:
 - Be friendly, concise and professional
 - Answer in 2-4 sentences max
 - Speak in first person as Ittyavira
-- Never make up information"""
-                    },
-                    {
-                        'role': 'user',
-                        'content': user_message
-                    }
-                ],
-                'max_tokens': 200,
-                'temperature': 0.7,
-            }
+- If asked something not in the data say I don't have that info but you can contact me directly
+- Never make up information""",
+              },
+              {'role': 'user', 'content': user_message},
+          ],
+          'max_tokens': 200,
+          'temperature': 0.7,
+      }
 
-            headers = {
-                'Authorization': f'Bearer {groq_key}',
-                'Content-Type': 'application/json',
-            }
+      headers = {
+          'Authorization': f'Bearer {groq_key}',
+          'Content-Type': 'application/json',
+      }
 
-            response = req.post(
-                'https://api.groq.com/openai/v1/chat/completions',
-                json=payload,
-                headers=headers,
-                timeout=30
-            )
+      response = req.post(
+          'https://api.groq.com/openai/v1/chat/completions',
+          json=payload,
+          headers=headers,
+          timeout=30,
+      )
 
-            data = response.json()
-            print(f"Groq response: {data}")  # debug log
+      data = response.json()
 
-            if response.status_code != 200:
-                return Response(
-                    {'error': f"Groq error: {data}"},
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+      if 'choices' in data and len(data['choices']) > 0:
+        reply = data['choices'][0]['message']['content']
+        return Response({'reply': reply})
+      else:
+        print(f"Groq API Error: {data}")
+        return Response(
+            {'error': 'Failed to get response from Groq'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
 
-            reply = data['choices'][0]['message']['content']
-            return Response({'reply': reply})
-
-        except Exception as e:
-            print(f"Chat error: {e}")
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+    except Exception as e:
+      print(f"Chat error: {e}")
+      return Response(
+          {'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+      )
