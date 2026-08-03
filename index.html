@@ -1575,13 +1575,15 @@
 // ── Chatbot ─────────────────────────────────────────
 
 const BACKEND_URL = 'https://ai-engineer-portfolio-ittyavira-c-abraham.onrender.com';
-const avatarVideo  = document.getElementById('avatar-video');
-const chatMessages = document.getElementById('chat-messages');
+// const avatarVideo  = document.getElementById('avatar-video');
+// const chatMessages = document.getElementById('chat-messages');
 let   chatOpen     = false;
 let   introPlayed  = false;
 
 // Toggle chat window
 function toggleChat() {
+  const avatarVideo  = document.getElementById('avatar-video');
+  const chatMessages = document.getElementById('chat-messages');
   chatOpen = !chatOpen;
   const widget = document.getElementById('chat-widget');
   widget.style.display = chatOpen ? 'flex' : 'none';
@@ -1594,6 +1596,7 @@ function toggleChat() {
 
 // Play D-ID intro video
 function playIntro() {
+  const avatarVideo = document.getElementById('avatar-video');
   avatarVideo.classList.add('speaking');
   avatarVideo.play();
   avatarVideo.onended = () => {
@@ -1603,6 +1606,7 @@ function playIntro() {
 
 // Add message bubble
 function addMessage(text, sender) {
+  const chatMessages = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = `chat-msg ${sender}`;
   div.textContent = text;
@@ -1612,12 +1616,31 @@ function addMessage(text, sender) {
 
 // Show typing dots
 function showTyping() {
+  const chatMessages = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'typing-dots';
   div.id = 'typing';
   div.innerHTML = '<span></span><span></span><span></span>';
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function speakText(text) {
+  const avatarVideo = document.getElementById('avatar-video');
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate   = 0.95;
+  utter.pitch  = 1;
+  utter.volume = 1;
+  utter.onstart = () => avatarVideo.classList.add('speaking');
+  utter.onend   = () => avatarVideo.classList.remove('speaking');
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v =>
+    v.name.includes('Google') || v.name.includes('Natural') || v.lang === 'en-US'
+  );
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
 }
 
 function hideTyping() {
