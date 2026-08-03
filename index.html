@@ -1588,6 +1588,7 @@ function toggleChat() {
   if (chatOpen && !introPlayed) {
     setTimeout(playIntro, 500);
     introPlayed = true;
+    fetch(`${BACKEND_URL}/api/contact/messages/`).catch(() => {});
   }
 }
 
@@ -1635,11 +1636,17 @@ async function sendMessage() {
   showTyping();
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); 
+    
     const res = await fetch(`${BACKEND_URL}/api/chat/`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ message: text }),
+      signal:  controller.signal,
     });
+    clearTimeout(timeoutId);
+    
     const data = await res.json();
     hideTyping();
     const reply = data.reply || 'Sorry, I could not get a response.';
@@ -1647,7 +1654,10 @@ async function sendMessage() {
     speakText(reply);
   } catch (err) {
     hideTyping();
-    addMessage('Sorry, the AI is sleeping 😴 Try again in a moment!', 'bot');
+    if (err.name === 'AbortError') {
+      addMessage('Taking longer than usual... Please try again! ⏳', 'bot');
+      } else {
+        addMessage('Sorry, the AI is sleeping 😴 Try again in a moment!', 'bot');
   }
 }
 
