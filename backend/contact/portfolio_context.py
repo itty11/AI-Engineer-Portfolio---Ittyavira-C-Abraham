@@ -17,13 +17,13 @@ SKILLS:
 Machine Learning: Linear Regression, Logistic Regression, kNN, SVM, Random Forest, XGBoost, PCA, K-Means
 Deep Learning: TensorFlow, PyTorch, LSTM, SARIMA, Time Series Forecasting
 Computer Vision: OpenCV, FAISS, SORT Tracking, CLAHE, Face Recognition, Docker
-Generative AI & NLP: RAG, LangChain, Hugging Face, Transformers, Prompt Engineering, OpenAI APIs
+Generative AI & NLP: RAG, LangChain, Hugging Face, Transformers, Prompt Engineering, Vector Search, OpenAI APIs
 Backend: Python, FastAPI, Django, Streamlit, API Development
 Frontend: React, Bootstrap, Tailwind CSS, JavaScript, HTML/CSS/SCSS
 Data & Cloud: PostgreSQL, MongoDB, SQL, GCP, Azure, Git & GitHub
 
 EXPERIENCE:
-1. AI/ML Intern at Cyber Intelligence Corps (CIC) — May 2026 to Present
+1. AI/ML Developer Intern at Cyber Intelligence Corps (CIC) — May 2026 to Present
    Working on computer vision, FAISS facial recognition, Leave Management System with FastAPI
 
 2. AI/ML Intern at Edunet Foundations and Microsoft AICTE — April 2025 to May 2025
